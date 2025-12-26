@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Diary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+    <!-- Left sidebar / drawer -->
+    <aside class="side-drawer" id="sideDrawer">
+        <div class="drawer-header">
+            <div class="drawer-icon">📓</div>
+            <div>
+                <div class="drawer-title">Daily Diary</div>
+                <div class="drawer-subtitle" id="totalEntries">0 total entries</div>
+            </div>
+        </div>
+
+        <div class="drawer-section-title">CATEGORIES</div>
+        <nav class="drawer-list">
+            <button class="drawer-item active" data-filter="all">∞ All</button>
+            <button class="drawer-item" data-filter="image">🖼 Image</button>
+            <button class="drawer-item" data-filter="video">🎥 Video</button>
+            <button class="drawer-item" data-filter="audio">🎤 Audio</button>
+            <button class="drawer-item" data-filter="text">💬 Text</button>
+            <button class="drawer-item" data-filter="star">⭐ Star Days</button>
+        </nav>
+
+        <div class="drawer-footer">
+            <span>Dark Mode</span>
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle" checked>
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </aside>
+
+    <!-- Main app area -->
+    <div class="app-root">
+        <!-- Top bar -->
+        <header class="top-bar">
+            <button class="icon-button menu-button" id="menuButton">&#9776;</button>
+            <div class="top-title">Daily Diary</div>
+            <button class="icon-button" id="calendarButton">&#128197;</button>
+        </header>
+
+        <!-- Main content -->
+        <main class="content">
+            <div class="empty-state" id="emptyState">
+                <div class="book-icon">📖</div>
+                <div class="empty-text">Start your diary journey</div>
+            </div>
+
+            <ul class="message-list" id="messageList"></ul>
+        </main>
+
+        <!-- Bottom input bar -->
+        <footer class="bottom-bar">
+            <button class="round-button" id="plusButton">+</button>
+            <div class="input-wrapper">
+                <input id="messageInput" type="text" placeholder="Write your thoughts...">
+            </div>
+            <button class="send-button" id="sendButton">➤</button>
+        </footer>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

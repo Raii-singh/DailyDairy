@@ -1,0 +1,6 @@
+com\example\Message.class
+com\example\ChatRoomRepository.class
+com\example\ChatRoom.class
+com\example\DiaryApplication.class
+com\example\DiaryController.class
+com\example\MessageRepository.class
