@@ -1,136 +1,133 @@
-# 📓 Daily Diary – DevOps First
-
-Daily Diary is a **DevOps-focused** mini application: a chat-style personal diary built with Spring Boot and shipped as a Docker container. The UI is simple on purpose – the real hero is the DevOps pipeline. [file:209][file:210]
-
----
-
-## ✨ Features
-
-- 🧠 **Spring Boot REST API** (rooms + messages)
-- 💾 **H2 file-persistent database** (no external DB required)
-- 💻 **HTML / CSS / JavaScript** frontend with chat-like UI
-- 🗑️ **Full CRUD** on diary entries (including delete)
-- 🐳 **Dockerized** with a multi-stage Dockerfile
-- 🚀 **One-command deployment** with `docker run`
-- 🔁 **CI/CD ready** (GitHub Actions / GitLab CI pipeline design) [file:209][file:210]
-
----
-
-## 🏗️ Architecture (DevOps View)
-
-+-------------+ +-------------------------+ +------------------+
-| Browser | <---> | Spring Boot REST API | <---> | H2 Database |
-| (HTML/JS UI)| | (Docker container) | | (file on volume) |
-+-------------+ +-------------------------+ +------------------+
-
-text
-
-- **Stateless REST API** for rooms and messages.
-- **H2 DB** stores data in a file so containers can restart without losing entries.
-- **Docker** wraps the whole app into a portable image. [file:209]
-
----
-
-## 📁 Project Structure
-
-devops-app/
-├── src/main/java/com/example/
-│ ├── DiaryController.java # REST endpoints (rooms + messages)
-│ ├── ChatRoom.java # JPA entity: diary room
-│ ├── Message.java # JPA entity: diary message
-│ ├── ChatRoomRepository.java # Room CRUD + queries
-│ └── MessageRepository.java # Message CRUD + queries
-├── src/main/resources/
-│ ├── application.properties # H2 & JPA config
-│ └── static/
-│ ├── index.html # Desktop chat-style UI
-│ ├── styles.css # Dark theme layout
-│ └── app.js # Fetch API calls + UX logic
-├── pom.xml # Maven build + dependencies
-└── Dockerfile # Multi-stage image build
-
-text
-
-Each file has a clear DevOps role: from build config (`pom.xml`) to runtime environment (`Dockerfile`). [file:209]
-
----
-
-## 🧪 Run Locally (Dev Mode)
-
-### 1. Using Maven
-
-mvn spring-boot:run
-
-text
-
-Then open:
-
-http://localhost:8080/
-
-text
-
-### 2. Using JAR
-
-mvn clean package
-java -jar target/diary-app.jar
-
-text
-
----
-
-## 🐳 Run with Docker
-
-### 1. Build image
-
-docker build -t diary-devops:1.0 .
-
-text
-
-### 2. Run container
-
-docker run -d
--p 8080:8080
---name daily-diary
--v diary-data:/app/data
-diary-devops:1.0
-
-text
-
-- `-p 8080:8080` → expose app on `http://localhost:8080`.
-- `-v diary-data:/app/data` → H2 data persists across restarts. [file:209]
-
-Stop & remove:
-
-docker stop daily-diary
-docker rm daily-diary
-
-text
-
----
-
-## 🔁 CI/CD (Designed)
-
-The project is structured to plug into **GitHub Actions / GitLab CI** easily: [file:209][file:210]
-
-1. **On every push**
-   - Run `mvn test`
-   - Build JAR with `mvn package`
-   - Build Docker image
-2. **Push image** to Docker Hub / GHCR
-3. **Deploy** the same image to:
-   - VM (EC2 / Linode) with `docker run`
-   - Docker Compose stack
-   - Mini Kubernetes cluster (optional)
-
----
-
-## 📌 Why This Project Is DevOps-First
-
-- Shows full path: **source → build → test → image → deploy**.
-- Uses **Infrastructure as Code** via Dockerfile and config files.
-- Keeps app **simple but real**: stateful DB, REST API, and UI.
-- Ready to extend with monitoring (Prometheus/Grafana) and K8s. [file:209][file:210]
-
----
-
-Happy shipping. 🐳💚
+# 📓 Daily Diary – DevOps-First Application
+#
+# Daily Diary is a DevOps-focused mini application that demonstrates the complete
+# lifecycle of a modern service — from source code to containerized deployment.
+#
+# It is a chat-style personal diary built with Spring Boot, packaged with Docker,
+# and designed around DevOps best practices rather than UI complexity.
+#
+# Goal:
+# Showcase build, packaging, persistence, and deployment — not flashy frontend.
+#
+# ------------------------------------------------------------
+# ✨ Key Features
+# ------------------------------------------------------------
+# - Spring Boot REST API (chat rooms + diary messages)
+# - H2 file-based persistent database (no external DB required)
+# - Lightweight HTML/CSS/JS chat-style frontend
+# - Full CRUD operations on diary messages
+# - Dockerized using multi-stage build
+# - One-command deployment with docker run
+# - CI/CD-ready design (GitHub Actions / GitLab CI)
+#
+# ------------------------------------------------------------
+# 🏗️ Architecture (DevOps Perspective)
+# ------------------------------------------------------------
+#
+# +-------------+       +-------------------------+       +------------------+
+# |   Browser   | <---> | Spring Boot REST API    | <---> |   H2 Database    |
+# | (HTML/JS)   |       | (Docker Container)      |       | (File on Volume) |
+# +-------------+       +-------------------------+       +------------------+
+#
+# Highlights:
+# - Stateless REST API
+# - Stateful persistence via file-based H2
+# - Docker volume ensures data survives restarts
+# - Entire system runs as one portable container
+#
+# ------------------------------------------------------------
+# 📁 Project Structure
+# ------------------------------------------------------------
+#
+# devops-app/
+# ├── src/main/java/com/example/
+# │   ├── DiaryController.java        # REST endpoints
+# │   ├── ChatRoom.java               # JPA entity (rooms)
+# │   ├── Message.java                # JPA entity (messages)
+# │   ├── ChatRoomRepository.java     # Room CRUD repository
+# │   └── MessageRepository.java      # Message CRUD repository
+# │
+# ├── src/main/resources/
+# │   ├── application.properties      # H2 + JPA configuration
+# │   └── static/
+# │       ├── index.html              # Chat-style UI
+# │       ├── styles.css              # Dark theme styling
+# │       └── app.js                  # Fetch API + UX logic
+# │
+# ├── pom.xml                          # Maven build configuration
+# └── Dockerfile                       # Multi-stage Docker build
+#
+# ------------------------------------------------------------
+# 🧪 Run Locally (Development Mode)
+# ------------------------------------------------------------
+#
+# Using Maven:
+# mvn spring-boot:run
+#
+# App URL:
+# http://localhost:8080/
+#
+# Using JAR:
+# mvn clean package
+# java -jar target/diary-app.jar
+#
+# ------------------------------------------------------------
+# 🐳 Run with Docker
+# ------------------------------------------------------------
+#
+# Build Docker image:
+# docker build -t diary-devops:1.0 .
+#
+# Run container:
+# docker run -d \
+#   -p 8080:8080 \
+#   --name daily-diary \
+#   -v diary-data:/app/data \
+#   diary-devops:1.0
+#
+# Explanation:
+# - Port 8080 exposed to host
+# - Docker volume persists H2 database data
+#
+# Stop & remove container:
+# docker stop daily-diary
+# docker rm daily-diary
+#
+# ------------------------------------------------------------
+# 🔁 CI/CD Pipeline (Design-Ready)
+# ------------------------------------------------------------
+#
+# Typical pipeline flow:
+# 1. On every push:
+#    - mvn test
+#    - mvn package
+# 2. Build Docker image
+# 3. Push image to Docker Hub / GHCR
+# 4. Deploy to:
+#    - VM (EC2 / Linode)
+#    - Docker Compose
+#    - Kubernetes (optional)
+#
+# ------------------------------------------------------------
+# 📌 Why This Is DevOps-First
+# ------------------------------------------------------------
+#
+# - Demonstrates full DevOps lifecycle:
+#   Code → Build → Test → Image → Deploy
+# - Uses Infrastructure as Code (Dockerfile, configs)
+# - Simple but real application (API + DB + UI)
+# - Easy to extend with monitoring, reverse proxy, Kubernetes
+#
+# ------------------------------------------------------------
+# 🚢 Final Note
+# ------------------------------------------------------------
+#
+# This project is intentionally minimal in UI and rich in DevOps concepts.
+#
+# Ideal for:
+# - College DevOps assignments
+# - GitHub portfolio
+# - CI/CD demonstrations
+# - Docker & deployment practice
+#
+# Happy shipping 🐳💚
